@@ -1,0 +1,6 @@
+hydrogram
+tgcrypto
+pymongo
+cinemagoer
+uvloop
+psutil
