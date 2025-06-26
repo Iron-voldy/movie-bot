@@ -1,0 +1,97 @@
+#  Hydrogram - Telegram MTProto API Client Library for Python
+#  Copyright (C) 2023-present Hydrogram <https://hydrogram.org>
+#
+#  This file is part of Hydrogram.
+#
+#  Hydrogram is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU Lesser General Public License as published
+#  by the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  Hydrogram is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU Lesser General Public License for more details.
+#
+#  You should have received a copy of the GNU Lesser General Public License
+#  along with Hydrogram.  If not, see <http://www.gnu.org/licenses/>.
+
+from io import BytesIO
+
+from hydrogram.raw.core.primitives import Int, Long, Int128, Int256, Bool, Bytes, String, Double, Vector
+from hydrogram.raw.core import TLObject
+from hydrogram import raw
+from typing import List, Optional, Any
+
+# # # # # # # # # # # # # # # # # # # # # # # #
+#               !!! WARNING !!!               #
+#          This is a generated file!          #
+# All changes made in this file will be lost! #
+# # # # # # # # # # # # # # # # # # # # # # # #
+
+
+class Report(TLObject):  # type: ignore
+    """Report a story.
+
+
+    Details:
+        - Layer: ``181``
+        - ID: ``1923FA8C``
+
+    Parameters:
+        peer (:obj:`InputPeer <hydrogram.raw.base.InputPeer>`):
+            The peer that uploaded the story.
+
+        id (List of ``int`` ``32-bit``):
+            IDs of the stories to report.
+
+        reason (:obj:`ReportReason <hydrogram.raw.base.ReportReason>`):
+            Why are these storeis being reported.
+
+        message (``str``):
+            Comment for report moderation
+
+    Returns:
+        ``bool``
+    """
+
+    __slots__: List[str] = ["peer", "id", "reason", "message"]
+
+    ID = 0x1923fa8c
+    QUALNAME = "functions.stories.Report"
+
+    def __init__(self, *, peer: "raw.base.InputPeer", id: List[int], reason: "raw.base.ReportReason", message: str) -> None:
+        self.peer = peer  # InputPeer
+        self.id = id  # Vector<int>
+        self.reason = reason  # ReportReason
+        self.message = message  # string
+
+    @staticmethod
+    def read(b: BytesIO, *args: Any) -> "Report":
+        # No flags
+        
+        peer = TLObject.read(b)
+        
+        id = TLObject.read(b, Int)
+        
+        reason = TLObject.read(b)
+        
+        message = String.read(b)
+        
+        return Report(peer=peer, id=id, reason=reason, message=message)
+
+    def write(self, *args) -> bytes:
+        b = BytesIO()
+        b.write(Int(self.ID, False))
+
+        # No flags
+        
+        b.write(self.peer.write())
+        
+        b.write(Vector(self.id, Int))
+        
+        b.write(self.reason.write())
+        
+        b.write(String(self.message))
+        
+        return b.getvalue()

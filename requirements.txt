@@ -1,6 +1,11 @@
 hydrogram
-tgcrypto
 pymongo
 cinemagoer
-uvloop
 psutil
+pysubs2
+requests
+aiohttp
+chardet
+aiofiles
+redis
+motor
