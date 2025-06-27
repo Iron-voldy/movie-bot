@@ -7,7 +7,8 @@ from info import SESSION, API_ID, API_HASH, BOT_TOKEN, AUTH_CHANNEL
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from hydrogram import types
-import uvloop, asyncio
+import asyncio
+import sys
 
 logging.basicConfig(
     level=logging.INFO,
@@ -17,7 +18,16 @@ logging.basicConfig(
 logging.getLogger('hydrogram').setLevel(logging.ERROR)
 logger = logging.getLogger(__name__)
 
-uvloop.install()
+# Only use uvloop on Linux/macOS (not Windows)
+if sys.platform != 'win32':
+    try:
+        import uvloop
+        uvloop.install()
+        logger.info("uvloop installed successfully")
+    except ImportError:
+        logger.info("uvloop not available, using default asyncio event loop")
+else:
+    logger.info("Windows detected, using default asyncio event loop")
 
 class Bot(Client):
     def __init__(self):
